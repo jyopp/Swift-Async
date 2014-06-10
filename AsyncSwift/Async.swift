@@ -28,7 +28,7 @@ class Async<T> {
 		}
 	}
 	convenience init(_ priority: dispatch_queue_priority_t, _ workClosure:Void->T) {
-		self.init(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), workClosure)
+		self.init(dispatch_get_global_queue(priority, 0), workClosure)
 	}
 	convenience init(_ workClosure:Void->T) {
 		self.init(DISPATCH_QUEUE_PRIORITY_DEFAULT, workClosure)
