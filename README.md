@@ -1,7 +1,7 @@
 Swift-Async
 ===========
 
-Sweet syntactic sugar for using an Async-Await pattern with Apple's Swift language. Based on Core Dispatch.
+Sweet syntactic sugar for using an Async-Await pattern with Apple's Swift language. Based on Grand Central Dispatch.
 
 The Async class is parameterized on your work's return type, and uses trailing-closure syntax for intense majesty.
 
