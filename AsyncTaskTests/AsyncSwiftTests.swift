@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import AsyncSwift
 
 class AsyncSwiftTests: XCTestCase {
     
@@ -24,5 +25,17 @@ class AsyncSwiftTests: XCTestCase {
         // This is an example of a functional test case.
         XCTAssert(AsyncTester.runTest(), "Basic Async Tests Passed")
     }
+	
+	func testFanout() {
+		var tasks = Array<Async<Any>>()
+		for i in 1..20 {
+			let taskI = Async<Void> {
+				usleep(useconds_t(100 * (i % 5 + i % 3 + i % 2)))
+				NSLog("Task %i", i)
+			}
+		}
+		var results = tasks.map { $0.await() }
+		XCTAssert(results.count == tasks.count, "All fanout tasks returned")
+	}
     
 }

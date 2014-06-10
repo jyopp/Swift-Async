@@ -15,6 +15,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4529E2CE194761D400CA7608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45BD01A01946CAF8001B2C31 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45BD01A71946CAF9001B2C31;
+			remoteInfo = AsyncSwift;
+		};
+		4529E2D0194761D400CA7608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45BD01A01946CAF8001B2C31 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45BD01A71946CAF9001B2C31;
+			remoteInfo = AsyncSwift;
+		};
+		4529E2D21947620100CA7608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45BD01A01946CAF8001B2C31 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45BD01A71946CAF9001B2C31;
+			remoteInfo = AsyncSwift;
+		};
+		4529E2D41947620500CA7608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45BD01A01946CAF8001B2C31 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45BD01A71946CAF9001B2C31;
+			remoteInfo = AsyncSwift;
+		};
 		4559AD331946E64B005E9CE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45BD01A01946CAF8001B2C31 /* Project object */;
@@ -190,6 +218,10 @@
 				4559AD3B1946E736005E9CE2 /* PBXTargetDependency */,
 				4559AD3D1946E73A005E9CE2 /* PBXTargetDependency */,
 				4559AD3F1946E73B005E9CE2 /* PBXTargetDependency */,
+				4529E2CF194761D400CA7608 /* PBXTargetDependency */,
+				4529E2D1194761D400CA7608 /* PBXTargetDependency */,
+				4529E2D31947620100CA7608 /* PBXTargetDependency */,
+				4529E2D51947620500CA7608 /* PBXTargetDependency */,
 			);
 			name = AsyncSwiftTests;
 			productName = AsyncTaskTests;
@@ -272,6 +304,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4529E2CF194761D400CA7608 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45BD01A71946CAF9001B2C31 /* AsyncSwift */;
+			targetProxy = 4529E2CE194761D400CA7608 /* PBXContainerItemProxy */;
+		};
+		4529E2D1194761D400CA7608 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45BD01A71946CAF9001B2C31 /* AsyncSwift */;
+			targetProxy = 4529E2D0194761D400CA7608 /* PBXContainerItemProxy */;
+		};
+		4529E2D31947620100CA7608 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45BD01A71946CAF9001B2C31 /* AsyncSwift */;
+			targetProxy = 4529E2D21947620100CA7608 /* PBXContainerItemProxy */;
+		};
+		4529E2D51947620500CA7608 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45BD01A71946CAF9001B2C31 /* AsyncSwift */;
+			targetProxy = 4529E2D41947620500CA7608 /* PBXContainerItemProxy */;
+		};
 		4559AD341946E64B005E9CE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 45BD01A71946CAF9001B2C31 /* AsyncSwift */;
