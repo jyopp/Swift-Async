@@ -40,7 +40,7 @@ class AsyncTester {
 	func test() -> Async<Bool> {
 		
 		// Start a task that will spawn another at its end
-		let stringTask = Async<(result:String, code:Int)> {
+		let stringTask = Async<(result:String, errorCode:Int)> {
 			for _ in 1..20 {
 				usleep(100)
 				printOnMainThread(".")
@@ -49,7 +49,7 @@ class AsyncTester {
 			// This task is allowed to run; We don't await it.
 			let voidTask = Async<Void>(self.memberVoid)
 			
-			return ("Done!", 1)
+			return ("Done!", 0)
 		}
 		
 		// Start a second task that concatenates its return value with the first's
@@ -64,11 +64,17 @@ class AsyncTester {
 		printOnMainThread("Started Tasks!")
 		// Return a task that awaits the second one
 		return Async<Bool> {
-			if let result = otherStringTask.await() {
-				printOnMainThread("Waited for \(result)")
-				return true
+			// Multiple callers can call await() from different threads
+			if 0 == stringTask.await().errorCode {
+				if let result = otherStringTask.await() {
+					printOnMainThread("Waited for \(result)")
+					return true
+				} else {
+					printOnMainThread("Waited for no result")
+					return false
+				}
 			} else {
-				printOnMainThread("Waited for no result")
+				printOnMainThread("String Task returned error \(stringTask.await().errorCode)")
 				return false
 			}
 		}

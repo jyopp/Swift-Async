@@ -36,6 +36,9 @@ class Async<T> {
 
 	func await() -> T {
 		dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
-		return result as T
+		let rVal = result as T
+		// Unblock the next invocation of await()
+		dispatch_semaphore_signal(semaphore)
+		return rVal
 	}
 }
