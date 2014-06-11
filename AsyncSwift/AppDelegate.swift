@@ -20,9 +20,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.window!.backgroundColor = UIColor.whiteColor()
 		self.window!.makeKeyAndVisible()
 		
+		
 		// Run the test from here, too, so the logs are easy to find
 		AsyncTester.runTest()
 		
+		let controller = UIViewController()
+		self.window!.rootViewController = controller
+
+		let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+		imageView.contentMode = UIViewContentMode.Center
+
+		let url = NSURL(string:"http://placehold.it/250x300&text=Async+Download")
+		let downloadImage = Async<UIImage>( UIImage(data: NSData(contentsOfURL:url)) )
+		downloadImage.asyncAwait() {
+			(var image) in
+			imageView.image = image
+			imageView.frame = controller.view.bounds
+			controller.view.addSubview(imageView)
+		}
+
 		return true
 	}
 

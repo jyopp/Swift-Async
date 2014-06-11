@@ -54,4 +54,13 @@ class Async<T> {
 		dispatch_semaphore_signal(semaphore)
 		return rVal
 	}
+	/** Calls the provided closure on the main queue, after awaiting on a background queue */
+	func asyncAwait(workClosure: (T)->Void ) {
+		dispatch_async(defaultQueue) {
+			let theResult = self.await()
+			dispatch_async(dispatch_get_main_queue()) {
+				workClosure(theResult)
+			}
+		}
+	}
 }
