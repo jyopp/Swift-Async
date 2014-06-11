@@ -8,6 +8,7 @@
 
 import XCTest
 import AsyncSwift
+import UIKit
 
 class AsyncSwiftTests: XCTestCase {
     
@@ -41,6 +42,15 @@ class AsyncSwiftTests: XCTestCase {
 			return task
 		}
 		XCTAssert(results.count == tasks.count, "All fanout tasks returned")
+	}
+	
+	func testInstantiationOfDownloadedContent() {
+		let url = NSURL(string:"https://www.google.com/images/srpr/logo11w.png")
+		
+		let instantiationTask = Async<UIImage>( UIImage(data: NSData(contentsOfURL:url)) )
+		NSLog("Got image of size %@", NSStringFromCGSize(instantiationTask.await().size))
+		
+		XCTAssert(instantiationTask.await() != nil, "Created downloaded image in background")
 	}
     
 }

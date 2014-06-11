@@ -13,6 +13,8 @@
 
 import Foundation
 
+let defaultQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+
 class Async<T> {
 	let semaphore = dispatch_semaphore_create(0)
 	// result should be of type t; However, this is unsupported by IRGen at the moment
@@ -22,18 +24,29 @@ class Async<T> {
 		}
 	}
 	
-	init(_ queue: dispatch_queue_t, _ workClosure:Void->T) {
+	init(queue: dispatch_queue_t, closure: Void->T) {
 		dispatch_async(queue) {
-			self.result = workClosure()
+			self.result = closure()
 		}
 	}
-	convenience init(_ priority: dispatch_queue_priority_t, _ workClosure:Void->T) {
-		self.init(dispatch_get_global_queue(priority, 0), workClosure)
+	convenience init(priority: dispatch_queue_priority_t, _ workClosure: Void->T) {
+		self.init(queue:dispatch_get_global_queue(priority, 0), workClosure)
 	}
-	convenience init(_ workClosure:Void->T) {
-		self.init(DISPATCH_QUEUE_PRIORITY_DEFAULT, workClosure)
+	convenience init(_ workClosure: Void->T) {
+		self.init(queue:defaultQueue, workClosure)
 	}
-
+	
+	// Capture auto-closure arguments, such as Async<MyObject>(Constructor(params))
+	convenience init(queue: dispatch_queue_t, _ workClosure: @auto_closure ()->T) {
+		self.init(queue:queue, closure:workClosure)
+	}
+	convenience init(priority: dispatch_queue_priority_t, _ workClosure: @auto_closure ()->T) {
+		self.init(queue:dispatch_get_global_queue(priority, 0), closure:workClosure)
+	}
+	convenience init(_ workClosure: @auto_closure ()->T) {
+		self.init(queue:defaultQueue, closure:workClosure)
+	}
+	
 	func await() -> T {
 		dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
 		let rVal = result as T

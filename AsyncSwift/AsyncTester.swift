@@ -47,8 +47,8 @@ class AsyncTester {
 			}
 
 			// This task is allowed to run; We don't await it.
-			let voidTask = Async<Void>(self.memberVoid)
-			
+			let voidTask = Async<Void>(self.memberVoid())
+						
 			return ("Done!", 0)
 		}
 		
