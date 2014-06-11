@@ -20,7 +20,7 @@ if code != 0 {
   println("Error: Got \(result)")
 }
 ```
-
+#####Tasks without a return type
 To run without returning a value, parameterize on Void. `task.await()` still works normally, but there is no return value.
 ```
 let voidTask = Async<Void> {
@@ -28,6 +28,7 @@ let voidTask = Async<Void> {
 }
 ```
 
+#####Implicit closures and passing member functions
 Async also supports implicit closures and member functions with no parameters:
 ```
 // Pass a member function that takes no params:
@@ -36,12 +37,12 @@ let memberTask = Async<MyObject>(self.generateDefaultObject)
 let memberTask2 = Async<MyObject>(self.generate(param1:"Label", param2:"Subhead"))
 let (object1, object2) = (memberTask.await, memberTask2.await)
 ```
-
+#####Specifying a Queue
 Pass a GCD queue to do work on a specific queue:
 ```
 Async<Void>(dispatch_get_main_queue(), myImageView.setImage(processedImage))
 ```
-
+#####Asynchronous callbacks
 Use `.asyncAwait()` to have a block called asynchronously on the main queue with the task's result. You may call .asyncAwait as many times as you like and from any queue:
 ```
 let downloadImage = Async<UIImage>( UIImage(data: NSData(contentsOfURL:url)) )
