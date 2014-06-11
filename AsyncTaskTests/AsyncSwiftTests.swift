@@ -27,14 +27,19 @@ class AsyncSwiftTests: XCTestCase {
     }
 	
 	func testFanout() {
-		var tasks = Array<Async<Any>>()
+		var tasks = Array<Async<Void>>()
 		for i in 1..20 {
 			let taskI = Async<Void> {
 				usleep(useconds_t(100 * (i % 5 + i % 3 + i % 2)))
 				NSLog("Task %i", i)
 			}
+			tasks.append(taskI)
 		}
-		var results = tasks.map { $0.await() }
+		var results = tasks.map() {
+			(var task) -> Async<Void> in
+			task.await();
+			return task
+		}
 		XCTAssert(results.count == tasks.count, "All fanout tasks returned")
 	}
     
