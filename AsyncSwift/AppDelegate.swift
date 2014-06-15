@@ -31,13 +31,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		imageView.contentMode = UIViewContentMode.Center
 
 		let url = NSURL(string:"http://placehold.it/250x300&text=Async+Download")
-		let downloadImage = Async<UIImage>( UIImage(data: NSData(contentsOfURL:url)) )
-		downloadImage.asyncAwait() {
-			(var image) in
-			imageView.image = image
+		let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+		let filePath = path.stringByAppendingPathComponent("cached.png")
+
+		// Load the data from disk if available, or from the network otherwise.
+		let fetchData = Async<(data:NSData, fromCache:Bool)> {
+			if (NSFileManager.defaultManager().fileExistsAtPath(filePath)) {
+				return (NSData(contentsOfFile: filePath), true)
+			} else {
+				return (NSData(contentsOfURL: url), false)
+			}
+		}
+		// Create a UIImage resource from the data on the default queue
+		let decodeImage = fetchData.await() {
+			UIImage(data: $0.data)
+		}
+		// When image decode is complete, assign it to an image on the main thread
+		decodeImage.await(dispatch_get_main_queue()) {
+			imageView.image = $0
 			imageView.frame = controller.view.bounds
 			controller.view.addSubview(imageView)
+			println("Set Image")
 		}
+		// When the data is available (in parallel with decode), ensure it's saved to disk.
+		let saveToCache = fetchData.await() {
+			(let input:(data:NSData, fromCache:Bool)) -> Bool in
+			return input.fromCache ? true : input.data.writeToFile(filePath, atomically:true)
+		}
+		// Show the user the status of the cache save on the main thread.
+		saveToCache.await(dispatch_get_main_queue()) {
+			let cached = $0 ? "Cached" : "Uncached"
+			println("File is now: \(cached)")
+		}
+		println("Returning from initializer")
 
 		return true
 	}

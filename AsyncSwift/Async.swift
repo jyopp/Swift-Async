@@ -29,6 +29,15 @@ class Async<T> {
 			self.result = closure()
 		}
 	}
+	// Initialize with another Async task, whose result will be passed to the closure
+	init<DepT>(queue: dispatch_queue_t, dependsOn: Async<DepT>, closure: (DepT) -> T) {
+		dispatch_async(defaultQueue) {
+			let val = dependsOn.await()
+			dispatch_async(queue) {
+				self.result = closure(val)
+			}
+		}
+	}
 	convenience init(priority: dispatch_queue_priority_t, _ workClosure: Void->T) {
 		self.init(queue:dispatch_get_global_queue(priority, 0), workClosure)
 	}
@@ -54,13 +63,21 @@ class Async<T> {
 		dispatch_semaphore_signal(semaphore)
 		return rVal
 	}
-	/** Calls the provided closure on the main queue, after awaiting on a background queue */
-	func asyncAwait(workClosure: (T)->Void ) {
-		dispatch_async(defaultQueue) {
-			let theResult = self.await()
-			dispatch_async(dispatch_get_main_queue()) {
-				workClosure(theResult)
-			}
-		}
+	/** Returns a dependent Async object that will run on the specified queue */
+	func await<RetT>(queue: dispatch_queue_t, _ workClosure: (T)->RetT ) -> Async<RetT> {
+		return Async<RetT>(queue:queue, dependsOn:self, closure:workClosure)
 	}
+	/** Returns a dependent Async that will run on the default queue */
+	func await<RetT>(workClosure: (T)->RetT ) -> Async<RetT> {
+		return Async<RetT>(queue:defaultQueue, dependsOn:self, closure:workClosure)
+	}
+	// The compiler seems to be unable to infer this at the moment:
+	/** Returns an Aync<Void> that will run on the provided queue */
+	func await(queue: dispatch_queue_t, _ workClosure: (T)->() ) -> Async<()> {
+		return Async<()>(queue:queue, dependsOn:self, closure:workClosure)
+	}
+	func await(workClosure: (T)->() ) -> Async<()> {
+		return Async<()>(queue:defaultQueue, dependsOn:self, closure:workClosure)
+	}
+
 }
