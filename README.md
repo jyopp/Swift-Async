@@ -89,20 +89,6 @@ Pass a GCD queue to do work on a specific queue:
 ```
 Async<Void>(dispatch_get_main_queue(), myImageView.image = processedImage)
 ```
-#####Asynchronous callbacks
-Use `.asyncAwait()` to have a block called asynchronously on the main queue with the task's result. You may call .asyncAwait as many times as you like and from any queue:
-```
-let downloadImage = Async<UIImage>( UIImage(data: NSData(contentsOfURL:url)) )
-self.imageView = UIImageView(frame: defaultFrame)
-downloadImage.asyncAwait() {
-  (var image) in
-  self.imageView.image = image
-}
-downloadImage.asyncAwait() {
-  (var image) in
-  MyImageCache.register(url, image:image)
-}
-```
 
 ### <a name="FAQ"></a>FAQ and Design Considerations
 
