@@ -29,7 +29,7 @@ class AsyncSwiftTests: XCTestCase {
 	
 	func testFanout() {
 		var tasks = Array<Async<Void>>()
-		for i in 1..20 {
+		for i in 1...20 {
 			let taskI = Async<Void> {
 				usleep(useconds_t(100 * (i % 5 + i % 3 + i % 2)))
 				NSLog("Task %i", i)
@@ -50,7 +50,7 @@ class AsyncSwiftTests: XCTestCase {
 		let instantiationTask = Async<UIImage>( UIImage(data: NSData(contentsOfURL:url)) )
 		NSLog("Got image of size %@", NSStringFromCGSize(instantiationTask.await().size))
 		
-		XCTAssert(instantiationTask.await() != nil, "Created downloaded image in background")
+		XCTAssert(instantiationTask.await().size.height > 0, "Created downloaded image in background")
 	}
     
 }
