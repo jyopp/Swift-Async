@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AA0C9F119E3BFF5003F9F73 /* AsyncTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BD01C71946CEAD001B2C31 /* AsyncTester.swift */; };
+		1AA0C9F219E3BFFE003F9F73 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BD01C51946CB0F001B2C31 /* Async.swift */; };
 		4559AD391946E6DF005E9CE2 /* AsyncTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BD01C71946CEAD001B2C31 /* AsyncTester.swift */; };
 		45BD01AE1946CAF9001B2C31 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BD01AD1946CAF9001B2C31 /* AppDelegate.swift */; };
 		45BD01B01946CAF9001B2C31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45BD01AF1946CAF9001B2C31 /* Images.xcassets */; };
@@ -298,6 +300,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				45BD01BC1946CAF9001B2C31 /* AsyncSwiftTests.swift in Sources */,
+				1AA0C9F219E3BFFE003F9F73 /* Async.swift in Sources */,
+				1AA0C9F119E3BFF5003F9F73 /* AsyncTester.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

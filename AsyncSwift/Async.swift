@@ -18,7 +18,7 @@ let defaultQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 class Async<T> {
 	let semaphore = dispatch_semaphore_create(0)
 	// result should be of type t; However, this is unsupported by IRGen at the moment
-	var result: Any = nil {
+    var result: Any? = nil {
 		didSet {
 			dispatch_semaphore_signal(semaphore)
 		}
@@ -46,13 +46,13 @@ class Async<T> {
 	}
 	
 	// Capture auto-closure arguments, such as Async<MyObject>(Constructor(params))
-	convenience init(queue: dispatch_queue_t, _ workClosure: @auto_closure ()->T) {
+	convenience init(queue: dispatch_queue_t, _ workClosure: @autoclosure ()->T) {
 		self.init(queue:queue, closure:workClosure)
 	}
-	convenience init(priority: dispatch_queue_priority_t, _ workClosure: @auto_closure ()->T) {
+	convenience init(priority: dispatch_queue_priority_t, _ workClosure: @autoclosure ()->T) {
 		self.init(queue:dispatch_get_global_queue(priority, 0), closure:workClosure)
 	}
-	convenience init(_ workClosure: @auto_closure ()->T) {
+	convenience init(_ workClosure: @autoclosure ()->T) {
 		self.init(queue:defaultQueue, closure:workClosure)
 	}
 	

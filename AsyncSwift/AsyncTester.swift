@@ -41,7 +41,7 @@ class AsyncTester {
 		
 		// Start a task that will spawn another at its end
 		let stringTask = Async<(result:String, errorCode:Int)> {
-			for _ in 1..20 {
+			for _ in 1...20 {
 				usleep(100)
 				printOnMainThread(".")
 			}
@@ -54,7 +54,7 @@ class AsyncTester {
 		
 		// Start a second task that concatenates its return value with the first's
 		let otherStringTask = Async<String?> {
-			for _ in 1..10 {
+			for _ in 1...10 {
 				usleep(600)
 				printOnMainThread("/")
 			}
